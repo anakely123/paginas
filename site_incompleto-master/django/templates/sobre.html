@@ -1,0 +1,126 @@
+{% extends 'base.html' %}
+{% block content %}
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" lang="pt-br">
+<head>
+<h1>NOTICIAS DO DIA</h1>
+<title>JORNAL FEDERAL/NOTICIAS </title>
+<style type="text/css">
+*{
+	margin:0;
+	padding:0;
+	list-style: none;
+}
+body {
+	margin: 200px;
+}
+#noticias {
+	float: left;
+}
+#noticias li {
+	display: none;
+	height: 300px;
+	width: 200px;
+	background-color: #ff0;
+	border: 8px ridge #f00;
+
+}
+#nav {
+	border: 1px ridge #f00;
+	width: 700px;
+	float: left;
+}
+#nav li{
+	height: 60px;
+	border: 1px ridge #f00;
+	text-align: center;
+	line-height: 15px;
+}
+
+#noticias li.bloco {
+	display: block;
+}
+
+
+</style>
+<script type="text/javascript">
+// por William Bruno 
+// modificado por Aprendiz CSS
+// http://forum.imasters.com.br/index.php?showtopic=324735
+
+function muda(){
+	var el = document.getElementById("noticias").getElementsByTagName("li");
+	var proximo = 0;	
+	var atual;
+	for( var i=0; i < el.length; i++ ) {
+		if( el[i].className == "bloco" ) {
+			atual = i;
+			el[i].className = "";
+			break;
+		}
+	}
+	proximo = atual + 1;
+	if(proximo > el.length-1) // condição para retornar à primeira notícia.
+		proximo = 0;
+	el[proximo].className = "bloco";
+	setTimeout("muda()", "2000");
+}
+
+window.onload=function(){
+	setTimeout("muda()", "2000");
+	var el = document.getElementById("noticias").getElementsByTagName("li"); 
+	var nav = document.getElementById("nav").getElementsByTagName("li");
+	
+	for( var i=0; i < nav.length; i++ ) {
+		nav[i].onmouseover = function(){
+			this.style.backgroundColor = '#93CFC2'; // muda o bg ao passar o mouse
+			for( var i=0; i < el.length; i++ ) { // procura a notícia atual que está ativa
+				if( el[i].className == 'bloco' )
+					el[i].className = ''; // esconde ela para mostrar a que o mouse estiver por cima
+			}
+				
+			var cont = this.getAttribute("id"); // não encontrei forma melhor =X
+			for( var i=0; i < el.length; i++ )
+				el[1].className = '';
+				
+			el[cont].className = 'bloco'; // mostra a notícia atual, ao passar o mouse
+			
+		}//fecha mouseOver
+		
+		nav[i].onmouseout = function(){
+			this.style.backgroundColor = '#fff';
+			for( var i=0; i < el.length; i++ ) 
+				el[i].className = '';
+					
+			var cont = this.getAttribute("id"); // não achei forma melhor para pegar parâmetro e fazer ligação entre lista e noticia
+			el[cont].className = 'bloco'; // mantém a notícia atual mesmo ao tirar o mouse
+			
+		}//fecha mouseOut
+		
+	}
+}// carregando tudo no onLoad, não obstrutivo
+</script>
+</head>
+<body>
+<div id="quadro">
+	<ul id="noticias">
+		<li class="bloco">Noticia 1</li>
+		<li>Noticia 2</li>
+		<li>Noticia 3</li>
+		<li>Noticia 4</li>
+		<li>Noticia 5</li>
+	</ul><!-- /noticias -->
+	<ul id="nav">
+		<li id="0">Bolsas de iniciação cientifica estarao dispiníveis até proxima semana, segundo coordenador de pesquisa</li>
+		<li id="1">Premiação da olimpiada de quimica acontecera esta sexta</li>
+		<li id="2">Alunos do curso curso de informatica vão pra nasa</li>
+		<li id="3">Professores de informatica pagam as placas dos alunos</li>
+		<li id="4">Equipe de informatica vence a gincana</li>
+	</ul>
+</div>
+</body>
+</html>
+
+
+{% endblock content %}
+
